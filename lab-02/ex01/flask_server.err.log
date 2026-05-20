@@ -1,0 +1,76 @@
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.12.55.244:5000
+Press CTRL+C to quit
+ * Restarting with watchdog (windowsapi)
+ * Debugger is active!
+ * Debugger PIN: 100-647-216
+127.0.0.1 - - [20/May/2026 13:42:15] "GET / HTTP/1.1" 404 -
+127.0.0.1 - - [20/May/2026 13:42:15] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [20/May/2026 13:42:28] "GET /api/caesar/encrypt HTTP/1.1" 405 -
+127.0.0.1 - - [20/May/2026 13:52:02] "POST /caesar/encrypt HTTP/1.1" 404 -
+127.0.0.1 - - [20/May/2026 13:56:02] "POST /api/caesar/encrypt HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thanh Thuy Tran\bmttnc-2380601844\lab-02\ex01\api.py", line 10, in caesar_encrypt
+    plain_text = data['plain_text']
+                 ~~~~^^^^^^^^^^^^^^
+KeyError: 'plain_text'
+127.0.0.1 - - [20/May/2026 13:56:38] "POST /api/caesar/encrypt HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thanh Thuy Tran\bmttnc-2380601844\lab-02\ex01\api.py", line 10, in caesar_encrypt
+    plain_text = data['plain_text']
+                 ~~~~^^^^^^^^^^^^^^
+KeyError: 'plain_text'
+127.0.0.1 - - [20/May/2026 13:56:57] "GET / HTTP/1.1" 404 -
+127.0.0.1 - - [20/May/2026 13:57:01] "GET /api/ HTTP/1.1" 404 -
+127.0.0.1 - - [20/May/2026 13:59:48] "GET /api/caesar/encrypt HTTP/1.1" 405 -
+127.0.0.1 - - [20/May/2026 14:00:19] "POST /api/caesar/encrypt HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Thanh Thuy Tran\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Thanh Thuy Tran\bmttnc-2380601844\lab-02\ex01\api.py", line 12, in caesar_encrypt
+    encrypted_text = caesar_cipher.encrypt(plain_text, key)
+  File "C:\Users\Thanh Thuy Tran\bmttnc-2380601844\lab-02\ex01\cipher\caesar\caesar_cipher.py", line 12, in encrypt
+    letter_index = self.alphabet.index(letter)
+ValueError: 'H' is not in list
