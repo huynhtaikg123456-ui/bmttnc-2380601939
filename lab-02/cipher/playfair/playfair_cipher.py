@@ -2,96 +2,82 @@ from string import ascii_uppercase
 
 
 class PlayfairCipher:
-    def __init__(self):
-        self.alphabet = ascii_uppercase.replace('J', '')
+    def __init__(self) -> None:
+        pass
 
-    def encrypt(self, text: str, key: str) -> str:
-        matrix = self._create_matrix(key)
-        pairs = self._prepare_plain_text(text)
-        encrypted_text = []
+    def create_playfair_matrix(self, key):
+        key = key.upper().replace("J", "I")  # Chuyển J thành I trong khóa
+        key_set = set(key)
+        alphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ"
+        remaining_letters = [letter for letter in alphabet if letter not in key_set]
+        matrix = list(key)
 
-        for first, second in pairs:
-            row1, col1 = self._find_position(matrix, first)
-            row2, col2 = self._find_position(matrix, second)
+        for letter in remaining_letters:
+            matrix.append(letter)
+            if len(matrix) == 25:
+                break
 
-            if row1 == row2:
-                encrypted_text.append(matrix[row1][(col1 + 1) % 5])
-                encrypted_text.append(matrix[row2][(col2 + 1) % 5])
-            elif col1 == col2:
-                encrypted_text.append(matrix[(row1 + 1) % 5][col1])
-                encrypted_text.append(matrix[(row2 + 1) % 5][col2])
+        playfair_matrix = [matrix[i:i+5] for i in range(0, len(matrix), 5)]
+        return playfair_matrix
+
+    def find_letter_coords(self, matrix, letter):
+        for row in range(len(matrix)):
+            for col in range(len(matrix[row])):
+                if matrix[row][col] == letter:
+                    return row, col
+
+    def playfair_encrypt(self, plain_text, matrix):
+        plain_text = plain_text.replace("J", "I").upper()
+        encrypted_text = ""
+
+        for i in range(0, len(plain_text), 2):
+            pair = plain_text[i:i+2]
+
+            if len(pair) == 1:  # Nếu lẻ, thêm 'X'
+                pair += "X"
+
+            row1, col1 = self.find_letter_coords(matrix, pair[0])
+            row2, col2 = self.find_letter_coords(matrix, pair[1])
+
+            if row1 == row2:  # Cùng hàng
+                encrypted_text += matrix[row1][(col1 + 1) % 5] + matrix[row2][(col2 + 1) % 5]
+            elif col1 == col2:  # Cùng cột
+                encrypted_text += matrix[(row1 + 1) % 5][col1] + matrix[(row2 + 1) % 5][col2]
+            else:  # Tạo hình chữ nhật
+                encrypted_text += matrix[row1][col2] + matrix[row2][col1]
+
+        return encrypted_text
+
+    def playfair_decrypt(self, cipher_text, matrix):
+        cipher_text = cipher_text.upper()
+        decrypted_text = ""
+
+        for i in range(0, len(cipher_text), 2):
+            pair = cipher_text[i:i+2]
+
+            row1, col1 = self.find_letter_coords(matrix, pair[0])
+            row2, col2 = self.find_letter_coords(matrix, pair[1])
+
+            if row1 == row2:  # Cùng hàng
+                decrypted_text += matrix[row1][(col1 - 1) % 5] + matrix[row2][(col2 - 1) % 5]
+            elif col1 == col2:  # Cùng cột
+                decrypted_text += matrix[(row1 - 1) % 5][col1] + matrix[(row2 - 1) % 5][col2]
+            else:  # Tạo hình chữ nhật
+                decrypted_text += matrix[row1][col2] + matrix[row2][col1]
+
+        # Loại bỏ ký tự 'X' nếu được thêm vào
+        banro = ""
+        for i in range(0, len(decrypted_text) - 2, 2):
+            if decrypted_text[i] == decrypted_text[i+2]:
+                banro += decrypted_text[i]
             else:
-                encrypted_text.append(matrix[row1][col2])
-                encrypted_text.append(matrix[row2][col1])
+                banro += decrypted_text[i] + decrypted_text[i+1]
 
-        return ''.join(encrypted_text)
+        if decrypted_text[-1] == "X":
+            banro += decrypted_text[-2]
+        else:
+            banro += decrypted_text[-2]
+            banro += decrypted_text[-1]
 
-    def decrypt(self, ciphertext: str, key: str) -> str:
-        matrix = self._create_matrix(key)
-        pairs = self._prepare_cipher_text(ciphertext)
-        decrypted_text = []
 
-        for first, second in pairs:
-            row1, col1 = self._find_position(matrix, first)
-            row2, col2 = self._find_position(matrix, second)
-
-            if row1 == row2:
-                decrypted_text.append(matrix[row1][(col1 - 1) % 5])
-                decrypted_text.append(matrix[row2][(col2 - 1) % 5])
-            elif col1 == col2:
-                decrypted_text.append(matrix[(row1 - 1) % 5][col1])
-                decrypted_text.append(matrix[(row2 - 1) % 5][col2])
-            else:
-                decrypted_text.append(matrix[row1][col2])
-                decrypted_text.append(matrix[row2][col1])
-
-        return ''.join(decrypted_text)
-
-    def _create_matrix(self, key: str) -> list[list[str]]:
-        clean_key = self._clean_text(key)
-        seen = set()
-        letters = []
-
-        for letter in clean_key + self.alphabet:
-            if letter not in seen:
-                seen.add(letter)
-                letters.append(letter)
-
-        return [letters[index:index + 5] for index in range(0, 25, 5)]
-
-    def _prepare_plain_text(self, text: str) -> list[tuple[str, str]]:
-        text = self._clean_text(text)
-        pairs = []
-        index = 0
-
-        while index < len(text):
-            first = text[index]
-            second = text[index + 1] if index + 1 < len(text) else 'X'
-
-            if first == second:
-                pairs.append((first, 'X'))
-                index += 1
-            else:
-                pairs.append((first, second))
-                index += 2
-
-        return pairs
-
-    def _prepare_cipher_text(self, ciphertext: str) -> list[tuple[str, str]]:
-        ciphertext = self._clean_text(ciphertext)
-        if len(ciphertext) % 2 != 0:
-            ciphertext += 'X'
-        return [(ciphertext[index], ciphertext[index + 1]) for index in range(0, len(ciphertext), 2)]
-
-    def _clean_text(self, text: str) -> str:
-        return ''.join(
-            'I' if letter == 'J' else letter
-            for letter in text.upper()
-            if letter.isalpha()
-        )
-
-    def _find_position(self, matrix: list[list[str]], letter: str) -> tuple[int, int]:
-        for row_index, row in enumerate(matrix):
-            if letter in row:
-                return row_index, row.index(letter)
-        raise ValueError(f'{letter} is not in the Playfair matrix')
+        return banro
